@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableMap;
+import org.jitsi.meet.sdk.ExternalAPIModule;
 
 @ReactModule(name = RNJitsiMeetModule.MODULE_NAME)
 public class RNJitsiMeetModule extends ReactContextBaseJavaModule {
@@ -108,4 +109,13 @@ public class RNJitsiMeetModule extends ReactContextBaseJavaModule {
             }
         });
     }
+
+    @ReactMethod
+    public void sendCommand(String eventName) {
+        Log.d("SEND COMMAND", "SEND");
+//        ExternalAPIModule ea = new ExternalAPIModule(getReactApplicationContext());
+        ExternalAPIModule.sendCommand(eventName, "ok");
+
+    }
+
 }

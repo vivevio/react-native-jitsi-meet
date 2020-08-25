@@ -128,6 +128,8 @@ public class RNJitsiMeetView extends BaseReactView<JitsiMeetViewListener>
      * @param newProps - New props to be set on the React Native view.
      */
     private void setProps(@NonNull Bundle newProps) {
+
+        JitsiMeetLogger.d("set props" + newProps);
         // Merge the default options with the newly provided ones.
         Bundle props = mergeProps(new Bundle(), newProps);
 
@@ -167,6 +169,7 @@ public class RNJitsiMeetView extends BaseReactView<JitsiMeetViewListener>
      */
     @Override
     protected void onExternalAPIEvent(String name, ReadableMap data) {
+        JitsiMeetLogger.d(" LISTENER_METHODS: " + name + " with data: " + data + " FROM " + LISTENER_METHODS );
         onExternalAPIEvent(LISTENER_METHODS, name, data);
     }
 }

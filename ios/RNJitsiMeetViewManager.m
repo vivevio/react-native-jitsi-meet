@@ -2,6 +2,8 @@
 #import "RNJitsiMeetView.h"
 #import <JitsiMeet/JitsiMeetUserInfo.h>
 
+
+
 @implementation RNJitsiMeetViewManager{
     RNJitsiMeetView *jitsiMeetView;
 }
@@ -11,6 +13,8 @@ RCT_EXPORT_VIEW_PROPERTY(onConferenceJoined, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onConferenceTerminated, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onConferenceWillJoin, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onEnteredPip, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onVideoMuted, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onAudioMuted, RCTBubblingEventBlock)
 
 - (UIView *)view
 {
@@ -82,6 +86,13 @@ RCT_EXPORT_METHOD(endCall)
     });
 }
 
+RCT_EXPORT_METHOD(sendCommand:(NSString *)eventName)
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [jitsiMeetView leave];
+    });
+}
+
 #pragma mark JitsiMeetViewDelegate
 
 - (void)conferenceJoined:(NSDictionary *)data {
@@ -119,5 +130,24 @@ RCT_EXPORT_METHOD(endCall)
 
     jitsiMeetView.onEnteredPip(data);
 }
+
+- (void)videoMuted:(NSDictionary *)data {
+    if (!jitsiMeetView.onVideoMuted) {
+        RCTLogInfo(@"Muted Video not availble %@", jitsiMeetView);
+        return;
+    }
+
+    jitsiMeetView.onVideoMuted(data);
+}
+
+- (void)audioMuted:(NSDictionary *)data {
+    if (!jitsiMeetView.onAudioMuted) {
+        RCTLogInfo(@"Muted Audio not available");
+        return;
+    }
+
+    jitsiMeetView.onAudioMuted(data);
+}
+
 
 @end
